@@ -28,11 +28,6 @@ build/
 # Logs
 *.log
 
-# Data files
-*.csv
-*.tsv
-*.parquet
-
 # Test outputs
 htmlcov/
 .coverage

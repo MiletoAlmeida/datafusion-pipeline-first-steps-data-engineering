@@ -1,7 +1,23 @@
 import json
 import csv
+import unicodedata
 from processamento_dados import Dados
 
+
+
+def normalizar_texto(texto):
+  if not isinstance(texto, str):
+    return texto
+  texto_normalizado = unicodedata.normalize('NFKD', texto)
+  texto_ascii = texto_normalizado.encode('ASCII', 'ignore').decode('ASCII')
+  return texto_ascii
+
+def normalizar_dados(dados):
+  dados_normalizados = []
+  for linha in dados:
+    linha_normalizada = {normalizar_texto(k): normalizar_texto(v) for k, v in linha.items()}
+    dados_normalizados.append(linha_normalizada)
+  return dados_normalizados
 
 def leitura_json(path_json):
   dados_json = []
@@ -84,6 +100,19 @@ print(dados_empresaA.path)
 
 # dados_csv = leitura_dados(path_csv, 'csv')
 # nome_colunas_csv = get_columns(dados_csv)
+# print(nome_colunas_csv)
+
+# Exemplo de uso das funções de normalização:
+# dados_json = leitura_dados(path_json, 'json')
+# dados_json = normalizar_dados(dados_json)
+# nome_colunas_json = get_columns(dados_json)
+# nome_colunas_json = [normalizar_texto(col) for col in nome_colunas_json]
+# print(nome_colunas_json)
+
+# dados_csv = leitura_dados(path_csv, 'csv')
+# dados_csv = normalizar_dados(dados_csv)
+# nome_colunas_csv = get_columns(dados_csv)
+# nome_colunas_csv = [normalizar_texto(col) for col in nome_colunas_csv]
 # print(nome_colunas_csv)
 
 
