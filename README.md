@@ -60,14 +60,31 @@ notebooks/          # Notebooks para exploração e testes
 
 ## Principais Classes e Métodos
 
+
 ### Classe `Dados`
-- `__init__(self, path, tipo_dados)`: Inicializa o objeto, lê os dados e extrai colunas.
+- `__init__(self, path, tipo_dados)`: Inicializa o objeto, lê os dados de um arquivo e extrai colunas.
+- `from_list(lista_de_dados)`: Classmethod que instancia um objeto a partir de uma lista de dicionários (dados em memória).
 - `leitura_json(self)`: Lê e retorna dados de um arquivo JSON.
 - `leitura_csv(self)`: Lê e retorna dados de um arquivo CSV.
 - `rename_columns(self, key_mapping)`: Renomeia as colunas conforme o mapeamento fornecido.
-- `join(dadosA, dadosB)`: Junta dois conjuntos de dados em um único objeto.
+- `join(dadosA, dadosB)`: Junta dois objetos `Dados` e retorna um novo objeto com os dados combinados, usando o método `from_list`.
 - `transformando_dados_tabela(self)`: Converte os dados para formato tabular.
 - `salvando_dados(self, path)`: Salva os dados em arquivo CSV com encoding UTF-8.
+
+#### Exemplo de uso com dados em memória:
+```python
+lista = [
+    {"col1": "valor1", "col2": "valor2"},
+    {"col1": "valor3", "col2": "valor4"}
+]
+dados_memoria = Dados.from_list(lista)
+print(dados_memoria.nome_colunas)
+```
+
+#### Exemplo de uso do join:
+```python
+dados_fusao = Dados.join(dadosA, dadosB)
+```
 
 ### Script `fusao_mercados_fev.py`
 - Exemplo de uso da pipeline, mostrando como ler, transformar, unir e salvar os dados.
