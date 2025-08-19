@@ -1,30 +1,6 @@
 import json
 import csv
-import unicodedata
 from processamento_dados import Dados
-
-
-def normalizar_texto(texto):
-  if not isinstance(texto, str):
-    return texto
-  texto_normalizado = unicodedata.normalize('NFKD', texto)
-  texto_ascii = texto_normalizado.encode('ASCII', 'ignore').decode('ASCII')
-  return texto_ascii
-
-def normalizar_dados(dados):
-  dados_normalizados = []
-  for linha in dados:
-    linha_normalizada = {normalizar_texto(k): normalizar_texto(v) for k, v in linha.items()}
-    dados_normalizados.append(linha_normalizada)
-  return dados_normalizados
-
-#def get_columns(dados):
-#    return list(dados[-1].keys())
-
-
-
-def size_data(dados):
-  return len(dados)
 
 def join(dadosA, dadosB):
     combined_list = []
