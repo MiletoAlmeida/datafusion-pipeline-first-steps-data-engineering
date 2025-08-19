@@ -8,6 +8,16 @@ class Dados:
         self._dados = self._leitura_dados()
         self._nome_colunas = self._get_columns()
         self._qtd_linhas = len(self._dados)
+    
+    @classmethod
+    def from_list(cls, lista_de_dados):
+        obj = cls.__new__(cls)
+        obj._path = None
+        obj._tipo_dados = 'list'
+        obj._dados = lista_de_dados
+        obj._nome_colunas = list(lista_de_dados[-1].keys()) if lista_de_dados else []
+        obj._qtd_linhas = len(lista_de_dados)
+        return obj
 
     def _leitura_json(self):
         with open(self._path, 'r', encoding='utf-8') as file:
@@ -23,8 +33,6 @@ class Dados:
             return self._leitura_csv()
         elif self._tipo_dados == 'json':
             return self._leitura_json()
-        elif self._tipo_dados == 'list':
-            return self._path
         return []
 
     def _get_columns(self):
@@ -61,7 +69,7 @@ class Dados:
         combined_list = []
         combined_list.extend(dadosA.dados)
         combined_list.extend(dadosB.dados)
-        return Dados(combined_list, 'list')
+        return Dados.from_list(combined_list)
 
     def transformando_dados_tabela(self):
         dados_combinados_tabela = [self._nome_colunas]
