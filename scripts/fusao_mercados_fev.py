@@ -4,7 +4,6 @@ import unicodedata
 from processamento_dados import Dados
 
 
-
 def normalizar_texto(texto):
   if not isinstance(texto, str):
     return texto
@@ -18,30 +17,6 @@ def normalizar_dados(dados):
     linha_normalizada = {normalizar_texto(k): normalizar_texto(v) for k, v in linha.items()}
     dados_normalizados.append(linha_normalizada)
   return dados_normalizados
-
-def leitura_json(path_json):
-  dados_json = []
-  with open(path_json, 'r') as file:
-    dados_json = json.load(file)
-  return dados_json
-
-def leitura_csv(path_csv): 
-  dados_csv = []
-  with open(path_csv, 'r') as file:
-    spamreader = csv.DictReader(file, delimiter=',')
-    for row in spamreader:
-      dados_csv.append(row)
-  return dados_csv
-
-def leitura_dados(path, tipo):
-  dados = []
-
-
-  if tipo == 'csv':
-    dados = leitura_csv(path)
-  elif tipo == 'json':
-    dados = leitura_json(path)
-  return dados
 
 def get_columns(dados):
     return list(dados[-1].keys())
@@ -85,12 +60,16 @@ def salvando_dados(dados, path):
         writer = csv.writer(file)
         writer.writerows(dados)
 
+# Extract
 
-path_json = '..\data_raw\dados_empresaA.json'
-path_csv = '..\data_raw\dados_empresaB.csv'
+path_json = 'data_raw/dados_empresaA.json'
+path_csv = 'data_raw/dados_empresaB.csv'
 
 dados_empresaA = Dados(path_json, 'json')
-print(dados_empresaA.path)
+print(dados_empresaA.dados)
+
+dados_empresaB = Dados(path_csv, 'csv')
+print(dados_empresaB.dados)
 
 # # Iniciando a leitura
 
