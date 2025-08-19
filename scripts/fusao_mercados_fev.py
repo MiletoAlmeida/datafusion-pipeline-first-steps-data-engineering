@@ -18,19 +18,9 @@ def normalizar_dados(dados):
     dados_normalizados.append(linha_normalizada)
   return dados_normalizados
 
-def get_columns(dados):
-    return list(dados[-1].keys())
+#def get_columns(dados):
+#    return list(dados[-1].keys())
 
-
-def rename_columns(dados, key_mapping):
-  new_dados_csv = []
-  for old_dict in dados:
-    dict_temp = {}
-    for old_key, value in old_dict.items():
-      dict_temp[key_mapping[old_key]] = value
-      new_dados_csv.append(dict_temp)
-            
-  return new_dados_csv
 
 
 def size_data(dados):
@@ -66,10 +56,22 @@ path_json = 'data_raw/dados_empresaA.json'
 path_csv = 'data_raw/dados_empresaB.csv'
 
 dados_empresaA = Dados(path_json, 'json')
-print(dados_empresaA.dados)
+print(dados_empresaA.nome_colunas)
 
 dados_empresaB = Dados(path_csv, 'csv')
-print(dados_empresaB.dados)
+print(dados_empresaB.nome_colunas)
+
+# Transform
+
+key_mapping = {'Nome do Item': 'Nome do Produto',
+               'Classificação do Produto': 'Categoria do Produto',
+               'Valor em Reais (R$)': 'Preço do Produto (R$)',
+               'Quantidade em Estoque': 'Quantidade em Estoque',
+               'Nome da Loja': 'Filial',
+               'Data da Venda': 'Data da Venda'}
+
+dados_empresaB.rename_columns(key_mapping)
+print(dados_empresaB.nome_colunas)
 
 # # Iniciando a leitura
 
