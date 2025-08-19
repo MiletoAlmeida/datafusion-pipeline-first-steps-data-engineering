@@ -10,6 +10,7 @@ class Dados:
         self.tipo_dados = tipo_dados
         self.dados = self.leitura_dados()
         self.nome_colunas = self.get_columns()
+        self.qtd_linhas = self.size_data()
 
     def leitura_json(self):
             dados_json = []
@@ -34,6 +35,10 @@ class Dados:
         elif self.tipo_dados == 'json': 
             dados = self.leitura_json()
             
+        elif self.tipo_dados == 'list':
+            dados = self.path
+            self.path = 'lista em memoria'
+
         return dados
     
     def get_columns(self):
@@ -51,3 +56,32 @@ class Dados:
                 new_dados.append(dict_temp)
             self.dados = new_dados
             self.nome_colunas = self.get_columns()
+
+    def size_data(self):
+        return len(self.dados)
+    
+    def join(dadosA, dadosB):
+        combined_list = []
+        combined_list.extend(dadosA.dados)
+        combined_list.extend(dadosB.dados)
+        return Dados (combined_list, 'list')
+    
+    def transformando_dados_tabela (self):
+
+        dados_combinados_tabela = [self.nome_colunas]
+
+        for row in self.dados:
+            linha = []
+            for coluna in self.nome_colunas:
+                linha.append(row.get(coluna, 'Indisponivel'))
+            dados_combinados_tabela.append(linha)
+
+        return dados_combinados_tabela
+    
+    def salvando_dados (self, path):
+
+        dados_combinados_tabela = self.transformando_dados_tabela()
+
+        with open(path, 'w', encoding='utf-8', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(dados_combinados_tabela)
